@@ -30,23 +30,27 @@ def ocr_document(images: list[Image.Image]):
         # Run OCR
         result = ocr.predict(img_array)
 
+        for res in result:
+            res.print()
+            res.save_to_img("output")
+            res.save_to_json("output")
         # Handle the new result structure
-        if result and len(result) > 0:
-            page_result = result[0]
-            print(page_result.keys())
-            print("=" * 25)
-            if page_result and 'rec_texts' in page_result:
-                # New API structure
-                texts = page_result['rec_texts']
-                scores = page_result['rec_scores']
-                bboxes = page_result['rec_boxes']
+        # if result and len(result) > 0:
+        #     page_result = result[0]
+        #     print(page_result.keys())
+        #     print("=" * 25)
+        #     if page_result and 'rec_texts' in page_result:
+        #         # New API structure
+        #         texts = page_result['rec_texts']
+        #         scores = page_result['rec_scores']
+        #         bboxes = page_result['rec_boxes']
 
-                for text, score, bbox in zip(texts, scores, bboxes):
-                    print(
-                        f"Page {i + 1} | Text: {text} | Conf: {score:.2f} | BBox: {bbox}"
-                    )
-            else:
-                # Fallback to old structure or empty result
-                print(f"Page {i + 1}: No text detected")
-        else:
-            print(f"Page {i + 1}: No text detected")
+        #         for text, score, bbox in zip(texts, scores, bboxes):
+        #             print(
+        #                 f"Page {i + 1} | Text: {text} | Conf: {score:.2f} | BBox: {bbox}"
+        #             )
+        #     else:
+        #         # Fallback to old structure or empty result
+        #         print(f"Page {i + 1}: No text detected")
+        # else:
+        #     print(f"Page {i + 1}: No text detected")
