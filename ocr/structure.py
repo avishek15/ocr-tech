@@ -1,25 +1,16 @@
-from paddleocr import PaddleOCR
+
 from paddleocr import PPStructureV3
 from PIL import Image
 import numpy as np
 
-# Initialize OCR (only once)
-ocr = PaddleOCR(
-    # Disables document orientation classification model via this parameter
+
+pipeline = PPStructureV3(
     use_doc_orientation_classify=True,
-    use_doc_unwarping=True,  # Disables text image rectification model via this parameter
-    # Disables text line orientation classification model via this parameter
+    use_doc_unwarping=True,
     use_textline_orientation=True,
-    # lang="en",
+    use_chart_recognition=True,
     device="gpu",
 )
-# pipeline = PPStructureV3(
-#     # use_doc_orientation_classify=True,
-#     # use_doc_unwarping=True,
-#     # use_textline_orientation=True,
-#     # use_chart_recognition=True,
-#     # device="gpu",
-# )
 
 # Process each page
 
@@ -56,14 +47,13 @@ def ocr_document(images: list, output_dir="output"):
         # Run OCR
         print("Running OCR...")
         try:
-            output = ocr.predict(img_array)
+            output = pipeline.predict(img_array)
             print("OCR completed successfully")
 
             # Save the result as Markdown
             for res in output:
-                res.save_to_img(f"{output_dir}/output_image_{i + 1}.png")
-                # res.save_to_markdown("output")
-                res.save_to_json(f"{output_dir}/output_image_{i + 1}.json")
+                res.save_to_markdown(f"{output_dir}/image_{i + 1}.md")
+                res.save_to_json(f"{output_dir}")
                 print(f"Saved results for image {i + 1}")
 
         except Exception as e:
