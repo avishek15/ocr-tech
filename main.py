@@ -1,8 +1,8 @@
 from utils.ingest import document_to_images
 from matplotlib import pyplot as plt
 from utils.preprocess import preprocess_for_ocr
-from ocr.paddle import ocr_document
-from ocr.structure import ocr_document as structure_ocr_document
+from ocr.paddle import ocr_document as structure_ocr_document
+# from ocr.structure import ocr_document as structure_ocr_document
 
 
 def main():
@@ -11,7 +11,8 @@ def main():
     # Example: Process a PDF file
     # Replace with your PDF file path
     # Change this to your PDF file path
-    pdf_path = r"C:\Projects\C 4.2.European Flax Manual and SOP.pdf"
+    # pdf_path = r"C:\Projects\C 4.2.European Flax Manual and SOP.pdf"
+    pdf_path = r"demo_image.png"
 
     # Convert PDF to images
     images = document_to_images(pdf_path)
@@ -20,7 +21,7 @@ def main():
     preprocessed_images = [preprocess_for_ocr(img) for img in images]
 
     # Process through OCR structure analysis
-    structure_ocr_document(preprocessed_images)
+    structure_ocr_document(preprocessed_images, output_dir="output_demo")
 
     # plt.imshow(preprocessed_images[0], cmap="gray")
     # plt.show()
